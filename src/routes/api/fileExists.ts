@@ -3,31 +3,15 @@ import {promises as fsPromises} from 'fs';
 import logger from '../../utilities/logger';
 
 const fs = require('fs');
-
 const fileExists = express.Router();
-
 const dir = fs.resolve('../../../cache');
 
-fileExists.get('/', (req, res, next) => {
-    if (req.query.fileName) {
-        let fileName = req.query.fileName;
-    }
-    else {
-        res.status(400).send(`Missing filename`);
-    }
-    if (req.query.height) {
-        let height = req.query.height;
-    }
-    else {
-        res.status(400).send(`Missing height`);
-    }
-    if (req.query.width) {
-        let width = req.query.width;
-    }
-    else {
-        res.status(400).send(`Missing width`);
-    }
-    next();
+/**
+ * Check if the file with given height and width exists in cache. If so, return.
+ * Otherwise, check if the image file exists and perform resize/cache if image is found, else throw error.
+ */
+fileExists.get('/', (req, res) => {
+    // TODO: Implement
 });
 
 export default fileExists;
