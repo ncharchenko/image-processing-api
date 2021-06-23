@@ -5,7 +5,7 @@ const app = express();
 
 const port = 3000;
 
-app.use('/api', routes);
+app.use('/', routes);
 
 app.listen(port, () => {
     console.log(`Hello world! I am listening on port ${port}!`)

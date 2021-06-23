@@ -1,9 +1,10 @@
 import express from 'express';
 
+
 const routes = express.Router();
 
 routes.get('/', (req, res) => {
-    res.send('using main api route');
+    res.status(200).send('OK');
 });
 
 export default routes;
