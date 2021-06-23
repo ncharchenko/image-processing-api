@@ -5,3 +5,5 @@ const logger = (req: express.Request, res: express.Response, next: Function): vo
     console.log(`${url} was visited`);
     next();
 };
+
+export default logger;

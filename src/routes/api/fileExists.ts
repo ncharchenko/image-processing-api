@@ -1,5 +1,6 @@
 import express from 'express';
 import {promises as fsPromises} from 'fs';
+import logger from '../../utilities/logger';
 
 const fs = require('fs');
 
