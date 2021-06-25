@@ -14,7 +14,7 @@ let validateQuery = function(req: express.Request, res: express.Response) {
     let height;
     let width;
     if (req.query.fileName) {
-        fileName = req.query.fileName;
+        fileName = req.query.filename;
     }
     else {
         res.status(400).send(`Missing filename`);
@@ -45,7 +45,7 @@ let validateQuery = function(req: express.Request, res: express.Response) {
 let resizeImage = async function(fileName: string, height: number, width: number) {
     // Resize image
     try {
-        const filePath: string = fs.join("../../../images",fileName)
+        const filePath: string = path.join("../../../images",fileName)
         const resizedFileName = `${fileName}-${height}-${width}.jpg`
         sharp(filePath).resize(height,width).jpeg({quality: 50}).toFile(fs.join(dir,resizedFileName));
         return fs.readFile(fs.join(dir,resizedFileName));
@@ -60,7 +60,7 @@ let getImage = async function(query: string) {
     let height: number = imageInfo.height;
     let width: number = imageInfo.width;
     let fileName: string = `${imageInfo.fileName}-${height}-${width}.jpg`;
-    let filePath: string = fs.join(dir,fileName);
+    let filePath: string = path.join(dir,fileName);
     try {
         const img = await fsPromises.readFile(filePath, 'utf-8');
         // Return image from cache
