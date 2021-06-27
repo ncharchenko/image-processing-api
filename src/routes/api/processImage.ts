@@ -6,7 +6,7 @@ const processImage = express.Router();
 
 const fs = require('fs');
 const path = require('path');
-const dir = path.resolve('../../../cache');
+const dir = path.resolve('cache');
 const sharp = require(`sharp`);
 
 const resizeImage = function(fileName: string, height: number, width: number) {
@@ -18,7 +18,7 @@ const resizeImage = function(fileName: string, height: number, width: number) {
         sharp(filePath).resize(height,width).jpeg({quality: 50}).toFile(fs.join(dir,resizedFileName));
         console.log("Resizing image");
         return fs.readFile(fs.join(dir,resizedFileName));
-    } catch {
+    } catch (err) {
         // Catch an error with image resizing
         return "ERROR: Specified image not found!";
     }
@@ -30,24 +30,29 @@ const getImage = function(query: string) {
     let height: number = imageInfo.height;
     let width: number = imageInfo.width;
     let fileName: string = `${imageInfo.fileName}-${height}-${width}.jpg`;
-    let filePath: string = path.join(dir,fileName);
     try {
+        console.log('try block');
+        let filePath: string = path.join(dir,fileName);
         const img = fsPromises.readFile(filePath, 'utf-8');
         // Return image from cache
         return img;
-    } catch {
+    } catch (err) {
         // Attempt to resize image
-        const img = resizeImage(`${fileName}.jpg`, height, width);
-        return img;
+        console.log(`error ${err}`);
+        if (err.code === 'ENOENT') {
+            const img = resizeImage(`${fileName}.jpg`, height, width);
+            return img;
+        }
     }
 }
 
-processImage.get('/', logger, (req) => {
+processImage.get('/', logger, (req: express.Request, res: express.Response) => {
     console.log("processImage route");
+    console.log(req.url);
     let fileName;
     let height;
     let width;
-    if (req.query.fileName) {
+    if (req.query.filename) {
         fileName = req.query.filename;
     }
     else {
@@ -74,7 +79,7 @@ processImage.get('/', logger, (req) => {
     };
     console.log(query);
     let args: string = JSON.stringify(query);
-    return getImage(args);
+    res.status(200).send(getImage(args));
 });
 
 export default processImage;
