@@ -9,8 +9,9 @@ const path = require('path');
 const dir = path.resolve('../../../cache');
 const sharp = require(`sharp`);
 
-let resizeImage = async function(fileName: string, height: number, width: number) {
+const resizeImage = function(fileName: string, height: number, width: number) {
     // Resize image
+    console.log('resize');
     try {
         const filePath: string = path.join("../../../images",fileName)
         const resizedFileName = `${fileName}-${height}-${width}.jpg`
@@ -23,19 +24,21 @@ let resizeImage = async function(fileName: string, height: number, width: number
     }
 }
 
-let getImage = async function(query: string) {
+const getImage = function(query: string) {
+    console.log('getImage');
     const imageInfo = JSON.parse(query);
     let height: number = imageInfo.height;
     let width: number = imageInfo.width;
     let fileName: string = `${imageInfo.fileName}-${height}-${width}.jpg`;
     let filePath: string = path.join(dir,fileName);
     try {
-        const img = await fsPromises.readFile(filePath, 'utf-8');
+        const img = fsPromises.readFile(filePath, 'utf-8');
         // Return image from cache
         return img;
     } catch {
         // Attempt to resize image
-        return resizeImage(`${fileName}.jpg`, height, width);
+        const img = resizeImage(`${fileName}.jpg`, height, width);
+        return img;
     }
 }
 
@@ -69,7 +72,7 @@ processImage.get('/', logger, (req) => {
         height: height,
         width: width
     };
-
+    console.log(query);
     let args: string = JSON.stringify(query);
     return getImage(args);
 });
