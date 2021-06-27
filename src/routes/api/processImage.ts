@@ -56,19 +56,22 @@ processImage.get('/', logger, (req: express.Request, res: express.Response) => {
         fileName = req.query.filename;
     }
     else {
-        return `Missing filename`;
+        res.status(400).send(`Missing filename`);
+        return;
     }
     if (req.query.height) {
         height = req.query.height;
     }
     else {
-        return `Missing height`;
+        res.status(400).send(`Missing height`);
+        return;
     }
     if (req.query.width) {
         width = req.query.width;
     }
     else {
-        return `Missing width`;
+        res.status(400).send(`Missing width`);
+        return;
     }
 
     // If our query is valid, build a JSON string to pass into getImage.
