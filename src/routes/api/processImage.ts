@@ -11,36 +11,41 @@ const sharp = require(`sharp`);
 
 const resizeImage = function(fileName: string, height: number, width: number) {
     // Resize image
-    console.log('resize');
     try {
-        const filePath: string = path.join("../../../images",fileName)
-        const resizedFileName = `${fileName}-${height}-${width}.jpg`
-        sharp(filePath).resize(height,width).jpeg({quality: 50}).toFile(fs.join(dir,resizedFileName));
-        console.log("Resizing image");
-        return fs.readFile(fs.join(dir,resizedFileName));
+        const img_dir = path.resolve('images');
+        const filePath: string = path.join(img_dir,fileName);
+        const img = fs.accessSync(filePath);
+        let fileNameSplit = fileName.split('.');
+        const resizedFileName = `${fileNameSplit[0]}-${height}-${width}.jpg`;
+        if (!fs.existsSync(dir)){
+            fs.mkdirSync(dir);
+        }
+        sharp(filePath).resize(height,width).jpeg({quality: 50}).toFile(path.join(dir,resizedFileName));
+        return path.join(dir,resizedFileName);
     } catch (err) {
         // Catch an error with image resizing
+        console.log(err);
         return "ERROR: Specified image not found!";
     }
 }
 
 const getImage = function(query: string) {
-    console.log('getImage');
     const imageInfo = JSON.parse(query);
-    let height: number = imageInfo.height;
-    let width: number = imageInfo.width;
-    let fileName: string = `${imageInfo.fileName}-${height}-${width}.jpg`;
+    // Is there a cleaner way to do this? Without this math, the dimensions become strings.
+    const height: number = imageInfo.height as number * 1;
+    const width: number = imageInfo.width as number * 1;
+    const fileName: string = `${imageInfo.fileName}-${height}-${width}.jpg`;
     try {
-        console.log('try block');
         let filePath: string = path.join(dir,fileName);
-        const img = fsPromises.readFile(filePath, 'utf-8');
+        const img = fs.accessSync(filePath);
         // Return image from cache
         return img;
     } catch (err) {
         // Attempt to resize image
         console.log(`error ${err}`);
         if (err.code === 'ENOENT') {
-            const img = resizeImage(`${fileName}.jpg`, height, width);
+            console.log(typeof(height), typeof(width));
+            const img = resizeImage(`${imageInfo.fileName}.jpg`, height as number, width as number);
             return img;
         }
     }
@@ -82,6 +87,8 @@ processImage.get('/', logger, (req: express.Request, res: express.Response) => {
     };
     console.log(query);
     let args: string = JSON.stringify(query);
+    let img_path = getImage(args);
+
     res.status(200).send(getImage(args));
 });
 
