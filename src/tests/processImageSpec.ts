@@ -3,14 +3,15 @@ import app from '../index';
 
 const request = supertest(app);
 
-describe('Test endpoint responses', () => {
-    it('gets the api endpoint', async(done) => {
+
+describe('Test proccessImage route.', () => {
+    it('returns a resized image.', async(done) => {
         const response = await request.get('/');
         expect(response.status).toBe(200);
         done();
     });
-    it('tries to get a non-existent endpoint', async(done) => {
-        const response = await request.get('/bad');
+    it('returns an error since the file is not found', async(done) => {
+        const response = await request.get('/processImage?filename=ford&height=512&width=512');
         expect(response.status).toBe(404);
         done();
     });
@@ -19,5 +20,9 @@ describe('Test endpoint responses', () => {
         expect(response.status).toBe(200);
         done();
     });
+    it('tests the processImage endpoint with a bad request', async(done) => {
+        const response = await request.get('/processImage?filename=');
+        expect(response.status).toBe(400);
+        done();
+    });
 });
-
