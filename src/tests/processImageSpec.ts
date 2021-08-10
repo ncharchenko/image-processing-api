@@ -1,28 +1,11 @@
-import supertest from 'supertest';
-import app from '../index';
-
-const request = supertest(app);
+import processImage from '../routes/api/processImage';
 
 
-describe('Test proccessImage route.', () => {
+describe('Test resizeImage.', () => {
+    // Write test for trying to get the resized image and test that an exception is thrown/caught.
     it('returns a resized image.', async(done) => {
-        const response = await request.get('/');
-        expect(response.status).toBe(200);
+        const img = processImage.resizeImage("fjord.jpg", 512, 512);
+        expect(img).toBeDefined();
         done();
     });
-    it('returns an error since the file is not found', async(done) => {
-        const response = await request.get('/processImage?filename=ford&height=512&width=512');
-        expect(response.status).toBe(404);
-        done();
-    });
-    it('tests the processImage endpoint with a good request', async(done) => {
-        const response = await request.get('/processImage?filename=fjord&height=512&width=512');
-        expect(response.status).toBe(200);
-        done();
-    });
-    it('tests the processImage endpoint with a bad request', async(done) => {
-        const response = await request.get('/processImage?filename=');
-        expect(response.status).toBe(400);
-        done();
-    });
-});
+})
