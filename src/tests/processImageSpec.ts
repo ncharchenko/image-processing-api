@@ -9,7 +9,7 @@ describe('Test resizeImage.', () => {
         done();
     });
     it('returns an image from cache.', async(done) => {
-        const img = getImage("?fileName=fjord.jpg&height=512&width=512");
+        const img = getImage("?fileName=fjord&height=512&width=512");
         expect(img).toBeDefined();
         done();
     });
