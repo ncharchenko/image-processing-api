@@ -1,5 +1,5 @@
 import express from 'express';
-import {promises as fsPromises} from 'fs';
+import { promises as fsPromises } from 'fs';
 import logger from '../../utilities/logger';
 import getImage from '../../utilities/getImage';
 
@@ -11,42 +11,39 @@ const dir: string = path.resolve('cache');
 const sharp = require(`sharp`);
 
 processImage.get('/', logger, (req: express.Request, res: express.Response) => {
-    console.log("processImage route");
+    console.log('processImage route');
     console.log(req.url);
     let fileName;
     let height;
     let width;
     if (req.query.filename) {
         fileName = req.query.filename;
-    }
-    else {
+    } else {
         res.status(400).send(`Missing filename`);
         return;
     }
     if (req.query.height) {
         height = req.query.height;
-    }
-    else {
+    } else {
         res.status(400).send(`Missing height`);
         return;
     }
     if (req.query.width) {
         width = req.query.width;
-    }
-    else {
+    } else {
         res.status(400).send(`Missing width`);
         return;
     }
 
     // If our query is valid, build a JSON string to pass into getImage.
-    let query = {
+    const query = {
         fileName: fileName,
         height: height,
-        width: width
+        width: width,
     };
     console.log(query);
-    let args: string = JSON.stringify(query);
-    let img_path = getImage(args);
+    const args: string = JSON.stringify(query);
+    const img_path = getImage(args);
 
     res.status(200).send(getImage(args));
 });

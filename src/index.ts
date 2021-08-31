@@ -10,7 +10,7 @@ app.use('/', routes);
 app.use(logger);
 
 app.listen(port, () => {
-    console.log(`Hello world! I am listening on port ${port}!`)
+    console.log(`Hello world! I am listening on port ${port}!`);
 });
 
 export default app;
