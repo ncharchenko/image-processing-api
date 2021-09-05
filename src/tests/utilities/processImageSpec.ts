@@ -8,9 +8,15 @@ describe('Test resizeImage.', () => {
         expect(img).toBeDefined();
         done();
     });
-    it('returns an image from cache.', async (done) => {
-        const img = getImage('?fileName=fjord&height=512&width=512');
+    it('resizes an image and returns it.', async (done) => {
+        const img = getImage('?fileName=palmtunnel&height=512&width=512');
         expect(img).toBeDefined();
+        done();
+    });
+    it('throws an exception.', async (done) => {
+        expect(function() {
+            getImage('?fileName=ford&height=512&width=512');
+        }).toThrowError();
         done();
     });
 });
