@@ -9,7 +9,12 @@ describe('Test resizeImage.', () => {
         done();
     });
     it('resizes an image and returns it.', async (done) => {
-        const img = getImage('?fileName=palmtunnel&height=512&width=512');
+        const query = {
+            fileName: "palmtunnel",
+            height: "512",
+            width: "512",
+        };
+        const img = getImage(JSON.stringify(query));
         expect(img).toBeDefined();
         done();
     });
