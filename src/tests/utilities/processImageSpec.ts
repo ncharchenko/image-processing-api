@@ -10,7 +10,7 @@ describe('Test resizeImage.', () => {
     });
     it('resizes an image and returns it.', async (done) => {
         const query = {
-            fileName: "palmtunnel",
+            fileName: "encenadaport",
             height: "512",
             width: "512",
         };

@@ -41,6 +41,7 @@
     "jasmine-spec-reporter": "^7.0.0",
     "prettier": "^2.3.2",
     "sharp": "^0.28.3",
-    "supertest": "^6.1.4"
+    "supertest": "^6.1.4",
+    "ts-node": "^10.2.1"
   }
 }
