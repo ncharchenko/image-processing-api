@@ -2,7 +2,8 @@
     "spec_dir": "build/tests",
     "spec_files": [
         "*[sS]pec.js",
-        "helpers/**/*.js"
+        "helpers/**/*.js",
+        "utilities/**/*.js"
     ],
     "helpers": [
         "helpers/**/*.js"
