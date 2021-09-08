@@ -24,7 +24,7 @@ describe('Test resizeImage.', () => {
             height: '512',
             width: '512',
         };
-        expect(function(): void {
+        expect(function (): void {
             getImage(JSON.stringify(query));
         }).toThrowError();
         done();

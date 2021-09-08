@@ -10,26 +10,26 @@ const path = require('path');
 const dir: string = path.resolve('cache');
 const sharp = require(`sharp`);
 
-processImage.get('/', logger, (req: express.Request, res: express.Response) => {
+processImage.get('/', logger, (req: express.Request, res: express.Response): void => {
     console.log('processImage route');
     console.log(req.url);
     let fileName;
     let height;
     let width;
     if (req.query.filename) {
-        fileName = req.query.filename;
+        fileName = req.query.filename as string;
     } else {
         res.status(400).send(`Missing filename`);
         return;
     }
     if (req.query.height) {
-        height = req.query.height;
+        height = req.query.height as string;
     } else {
         res.status(400).send(`Missing height`);
         return;
     }
     if (req.query.width) {
-        width = req.query.width;
+        width = req.query.width as string;
     } else {
         res.status(400).send(`Missing width`);
         return;
