@@ -10,17 +10,22 @@ describe('Test resizeImage.', () => {
     });
     it('resizes an image and returns it.', async (done) => {
         const query = {
-            fileName: "encenadaport",
-            height: "512",
-            width: "512",
+            fileName: 'encenadaport',
+            height: '512',
+            width: '512',
         };
         const img = getImage(JSON.stringify(query));
         expect(img).toBeDefined();
         done();
     });
     it('throws an exception.', async (done) => {
-        expect(function() {
-            getImage('?fileName=ford&height=512&width=512');
+        const query = {
+            fileName: 'ford',
+            height: '512',
+            width: '512',
+        };
+        expect(function(): void {
+            getImage(JSON.stringify(query));
         }).toThrowError();
         done();
     });
