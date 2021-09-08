@@ -4,7 +4,7 @@ import logger from '../utilities/logger';
 
 const routes = express.Router();
 
-routes.get('/', logger, (req, res) => {
+routes.get('/', logger, (req: express.Request, res: express.Response): void => {
     res.status(200).send('OK');
 });
 
