@@ -4,7 +4,7 @@ import fs from 'fs';
 
 const dir: string = path.resolve('cache');
 
-const getImage = async function (query: string) {
+const getImage = async function (query: string): Promise<string> {
     const imageInfo = JSON.parse(query);
     // Is there a cleaner way to do this? Without this math, the dimensions become strings.
     const height: number = (imageInfo.height as number) * 1;
