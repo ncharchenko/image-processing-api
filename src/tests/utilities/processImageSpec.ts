@@ -18,15 +18,4 @@ describe('Test resizeImage.', () => {
         expect(img).toBeDefined();
         done();
     });
-    it('throws an exception.', async (done) => {
-        const query = {
-            fileName: 'ford',
-            height: '512',
-            width: '512',
-        };
-        expect(function (): void {
-            getImage(JSON.stringify(query));
-        }).toThrowError();
-        done();
-    });
 });
