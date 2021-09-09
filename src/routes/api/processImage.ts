@@ -10,9 +10,7 @@ const path = require('path');
 const dir: string = path.resolve('cache');
 const sharp = require(`sharp`);
 
-processImage.get('/', logger, (req: express.Request, res: express.Response): void => {
-    console.log('processImage route');
-    console.log(req.url);
+const processRoute = async function (req: express.Request, res: express.Response): Promise<void> {
     let fileName;
     let height;
     let width;
@@ -34,7 +32,6 @@ processImage.get('/', logger, (req: express.Request, res: express.Response): voi
         res.status(400).send(`Missing width`);
         return;
     }
-
     // If our query is valid, build a JSON string to pass into getImage.
     const query = {
         fileName: fileName,
@@ -46,6 +43,12 @@ processImage.get('/', logger, (req: express.Request, res: express.Response): voi
     const img = await getImage(args);
 
     res.status(200).sendFile(img);
+};
+
+processImage.get('/', logger, (req: express.Request, res: express.Response): void => {
+    console.log('processImage route');
+    console.log(req.url);
+    processRoute(req, res);
 });
 
 export default processImage;
