@@ -10,20 +10,19 @@ const getImage = async function (query: string) {
     const height: number = (imageInfo.height as number) * 1;
     const width: number = (imageInfo.width as number) * 1;
     const fileName = `${imageInfo.fileName}-${height}-${width}.jpg`;
+    const filePath: string = path.join(dir, fileName);
     try {
-        const filePath: string = path.join(dir, fileName);
         const img = fs.accessSync(filePath);
-        // Return image from cache
-        return img;
     } catch (err) {
         // Attempt to resize image
         console.log(`error ${err}`);
         if (err.code === 'ENOENT') {
             console.log(typeof height, typeof width);
-            const img = await resizeImage(`${imageInfo.fileName}.jpg`, height as number, width as number);
-            return img;
+            await resizeImage(`${imageInfo.fileName}.jpg`, height as number, width as number);
+            const img = fs.accessSync(filePath);
         }
     }
+    return filePath;
 };
 
 export default getImage;

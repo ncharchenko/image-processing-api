@@ -43,9 +43,9 @@ processImage.get('/', logger, (req: express.Request, res: express.Response): voi
     };
     console.log(query);
     const args: string = JSON.stringify(query);
-    const img_path = getImage(args);
+    const img = await getImage(args);
 
-    res.status(200).send(getImage(args));
+    res.status(200).sendFile(img);
 });
 
 export default processImage;
