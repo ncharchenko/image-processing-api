@@ -1,30 +1,29 @@
 import express from 'express';
 import { promises as fsPromises } from 'fs';
+import fs from 'fs';
+import path from 'path';
 import logger from '../../utilities/logger';
 import getImage from '../../utilities/getImage';
 
 const processImage = express.Router();
-
-const fs = require('fs');
-const path = require('path');
-const dir: string = path.resolve('cache');
+const imgDir: string = path.resolve('images');
+const cacheDir: string = path.resolve('cache');
 const sharp = require(`sharp`);
 
 const processRoute = async function (req: express.Request, res: express.Response): Promise<void> {
-    let fileName;
+    let fileName = req.query.filename as string;
     let height = req.query.height as string;
     let width = req.query.width as string;
-    if (req.query.filename) {
-        fileName = req.query.filename as string;
-    } else {
+    let filePath = path.join(imgDir,fileName);
+    if (fileName == null || !fs.existsSync(filePath)) {
         res.status(400).send(`Missing filename`);
         return;
     }
-    if (!parseInt(height)) {
+    if (!parseInt(height) || parseInt(height) < 0) {
         res.status(400).send(`Missing height`);
         return;
     }
-    if (!parseInt(width)) {
+    if (!parseInt(width) || parseInt(width) < 0) {
         res.status(400).send(`Missing width`);
         return;
     }
