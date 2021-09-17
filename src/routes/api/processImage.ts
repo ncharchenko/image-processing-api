@@ -12,23 +12,19 @@ const sharp = require(`sharp`);
 
 const processRoute = async function (req: express.Request, res: express.Response): Promise<void> {
     let fileName;
-    let height;
-    let width;
+    let height = req.query.height as string;
+    let width = req.query.width as string;
     if (req.query.filename) {
         fileName = req.query.filename as string;
     } else {
         res.status(400).send(`Missing filename`);
         return;
     }
-    if (req.query.height) {
-        height = req.query.height as string;
-    } else {
+    if (!parseInt(height)) {
         res.status(400).send(`Missing height`);
         return;
     }
-    if (req.query.width) {
-        width = req.query.width as string;
-    } else {
+    if (!parseInt(width)) {
         res.status(400).send(`Missing width`);
         return;
     }
