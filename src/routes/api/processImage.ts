@@ -14,7 +14,7 @@ const processRoute = async function (req: express.Request, res: express.Response
     let fileName = req.query.filename as string;
     let height = req.query.height as string;
     let width = req.query.width as string;
-    let filePath = path.join(imgDir,fileName);
+    let filePath = path.join(imgDir,`${fileName}.jpg`);
     if (fileName == null || !fs.existsSync(filePath)) {
         res.status(400).send(`Missing filename`);
         return;
